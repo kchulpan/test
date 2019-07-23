@@ -1,96 +1,100 @@
-function onLoad(){
-	var ul = document.getElementById("navMenuBar");
-	var navMenuList = ['menu1', 'menu2', 'menu3', 'menu4'];
-	var list = "";
-	for(var i=0; i < navMenuList.length; i++){
-		list += "<li>";
-		list += navMenuList[i];
-		list += "</li>";
-	}
-	ul.innerHTML = list;
+var rowSize   = 100; // => container height / number of items
+var container = document.querySelector(".container");
+var listItems = Array.from(document.querySelectorAll(".list-item")); // Array of elements
+var sortables = listItems.map(Sortable); // Array of sortables
+var total     = sortables.length;
+
+TweenLite.to(container, 0.5, { autoAlpha: 1 });
+
+function changeIndex(item, to) {
+    
+  // Change position in array
+  arrayMove(sortables, item.index, to);
+    
+  // Change element's position in DOM. Not always necessary. Just showing how.
+  if (to === total - 1) {
+    container.appendChild(item.element);    
+  } else {    
+    var i = item.index > to ? to : to + 1;
+    container.insertBefore(item.element, container.children[i]);
+  }    
+    
+  // Set index for each sortable
+  sortables.forEach((sortable, index) => sortable.setIndex(index));
 }
 
-function asideMenu(count){
-  var menu = document.getElementsByName("myDropdown");
-  for(var i=1; i <= menu.length; i++){
-	 if(i == count){
-		 menu[i-1].style.display = "block";
-	 }else{
-		 
-		 menu[i-1].style.display = "none";
-	 }
-	}
-}
-
-function dragStart(ev){
-	ev.dataTransfer.setData("text", ev.target.id);
-}
-
-function dragOver(ev){
-	ev.preventDefault();
-}
-
-var divBoxAttr = "";
-function drop(ev){
-  console.log("dropid : " + ev.target.id);
-  if(ev.target.id == 'dropZone'){
-    dragDiv();
-
-  }else{
-	ev.preventDefault();
-	var divBox = document.getElementById("dropZone");
-	divBoxAttr += "<div id='mydiv' style='width:100px; height:100px; resize: both; overflow:auto; border:1px dashed black; ' draggable='true' ondrop='drop(ev)' ondragover='dragOver(event)'>";
-	divBoxAttr += "박스를 생성했습니다.";
-	divBoxAttr += "</div>";
-	
-  divBox.innerHTML = divBoxAttr;
+function Sortable(element, index) {
+    
+  var content = element.querySelector(".item-content");
+  var order   = element.querySelector(".order");
+  
+  var animation = TweenLite.to(content, 0.3, {
+    boxShadow: "rgba(0,0,0,0.2) 0px 16px 32px 0px",
+    force3D: true,
+    scale: 1.1,
+    paused: true
+  });
+  
+  var dragger = new Draggable(element, {        
+    onDragStart: downAction,
+    onRelease: upAction,
+    onDrag: dragAction,
+    cursor: "inherit",    
+    type: "y"
+  });
+  
+  // Public properties and methods
+  var sortable = {
+    dragger:  dragger,
+    element:  element,
+    index:    index,
+    setIndex: setIndex
+  };
+  
+  TweenLite.set(element, { y: index * rowSize });
+    
+  function setIndex(index) {
+    
+    sortable.index = index;    
+    order.textContent = index + 1;
+    
+    // Don't layout if you're dragging
+    if (!dragger.isDragging) layout();
   }
-	
-}
-
-//Make the DIV element draggagle:
-function dragDiv(){
-  var divElement = document.getElementById("mydiv");
-  dragElement(divElement);
-  function dragElement(elmnt) {
-    console.log(elmnt.id);
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (document.getElementById(elmnt.id)) {
-      /* if present, the header is where you move the DIV from:*/
-      document.getElementById(elmnt.id).onmousedown = dragMouseDown;
-    } else {
-      /* otherwise, move the DIV from anywhere inside the DIV:*/
-      elmnt.onmousedown = dragMouseDown;
-    }
-
-    function dragMouseDown(e) {
-      e = e || window.event;
-      e.preventDefault();
-      // get the mouse cursor position at startup:
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-      e = e || window.event;
-      e.preventDefault();
-      // calculate the new cursor position:
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      // set the element's new position:
-      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-      /* stop moving when mouse button is released:*/
-      document.onmouseup = null;
-      document.onmousemove = null;
+  
+  function downAction() {
+    animation.play();
+    this.update();
+  }
+  
+  function dragAction() {
+    
+    // Calculate the current index based on element's position
+    var index = clamp(Math.round(this.y / rowSize), 0, total - 1);
+    
+    if (index !== sortable.index) {
+      changeIndex(sortable, index);
     }
   }
+  
+  function upAction() {
+    animation.reverse();
+    layout();
+  }
+  
+  function layout() {    
+    TweenLite.to(element, 0.3, { y: sortable.index * rowSize });  
+  }
+    
+  return sortable;
+}
+
+// Changes an elements's position in array
+function arrayMove(array, from, to) {
+  array.splice(to, 0, array.splice(from, 1)[0]);
+}
+
+// Clamps a value to a min/max
+function clamp(value, a, b) {
+  return value < a ? a : (value > b ? b : value);
 }

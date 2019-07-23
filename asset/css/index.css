@@ -1,97 +1,47 @@
-*{
+html, body {
+	height: 100%;
+  }
+  
+  body {
+	cursor: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/106114/cursor.png") 32 32, auto;
+	background: rgb(238,238,238);
+	overflow: hidden;  
+  }
+  
+  *, *:before, *:after {
 	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
-
-header{
-		width : 100%;
-		height : 50px;
-		border: 1px solid black;
-}
-
-.navMenuBar li{
-	text-align: center;
-	display:block;
-	float: left;
-	width: 25%;
-	height: 50px;
-	padding: 15px;
-	border:1px solid black;
-}
-
-.navMenuBar li:hover{
-	background-color:black;
-	color:white;
-	cursor:pointer;
-}
-aside{
-	clear:both;
-	float:left;
-	width:10%;
-	height:1000px;
-	background-color:black;
-	
-}
-
-aside .asideMainMenu{
-	text-align:center;
-	width:100%;
-	height:50px;
-	border: 1px solid white;
-	background-color:gray;
-	color:white;
-	font-weight:bold;
-	padding:15px;
-	
-}
-aside .asideMainMenu:hover{
-	background-color:black;
-	color:white;
-	cursor:pointer;
-	
-}
-	
-.dropdown-content{
-	display:none;
-	width:100%;
-	height:auto;
-	
-}
-.dropdown-content a{
-	display:block;
-	width:100%;
-	height:50px;
-	padding:15px;
-	background-color:white;
-	color:black;
-	border:1px solid gray;
-	text-decoration:none;
-	text-align:right;
-	
-}
-
-.dropZone{
-	float:left;
-	width:90%;
-	height:1000px;
-}
-.dropZoneTop{
-	width:100%;
-	height:auto;
-	padding:5px 5px;
-	text-align:left;
-	background-color:aqua;
-}
-#mydiv{
-	width:50px; 
-	height:50px; 
-	border:1px black solid;
-}
-
-.dragZone{
-
-}
-.dropZone{
-	
-}
+  }
+  
+  .container {
+	position: relative;  
+	top: 50%;
+	left: 50%;  
+	width: 320px;
+	height: 400px;
+	opacity: 0;
+	visibility: hidden;
+	transform: translate(-50%, -50%);
+  }
+  
+  .list-item {  
+	position: absolute;
+	top: 0;
+	left: 0;  
+	height: 90px;
+	width: 100%;  
+  }
+  
+  .item-content {
+	height: 100%;
+	border: 0px solid rgba(123, 123, 123, 0.498039);
+	border-radius: 4px;
+	color: rgb(153, 153, 153);
+	line-height: 90px;
+	padding-left: 32px;
+	font-size: 24px;
+	font-weight: 400;
+	background-color: rgb(255, 255, 255);
+	box-shadow: rgba(0,0,0,0.2) 0px 1px 2px 0px;
+  }
+  
+  

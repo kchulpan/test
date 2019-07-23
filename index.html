@@ -9,46 +9,34 @@
 
 </head>
 
-<body onload="onLoad()">
-	<header>
-	</header>
-	<nav>
-		<ul id="navMenuBar" class="navMenuBar">
-		</ul>
-	</nav>
-	<aside>
-		<div class="asideMainMenu" onclick="asideMenu(1)">box</div>
-		<div class="dropdown-content" name="myDropdown">
-			<a id="drop1" draggable="true" ondragstart="dragStart(event)" href="#">div box</a>
-<!--			<a draggable="true" ondragover="dragStart(event)" href="#">Link 1-2</a>
-			<a draggable="true" ondragover="dragStart(event)" href="#">Link 1-3</a>
--->
+<body>
+	<section class="container">
+  
+		<div class="list-item">
+		  <div class="item-content">
+			<span class="order">1</span> Alpha
+		  </div>
 		</div>
-<!--
-		<div class="asideMainMenu" onclick="asideMenu(2)">text</div>
-
-		<div class="dropdown-content" name="myDropdown">
-			<a draggable="true" ondragover="dragStart(event)" href="#">Link 2-1</a>
-			<a draggable="true" ondragover="dragStart(event)" href="#">Link 2-2</a>
-			<a draggable="true" ondragover="dragStart(event)" href="#">Link 2-3</a>
+		
+		<div class="list-item">
+		  <div class="item-content">
+			<span class="order">2</span> Bravo
+		  </div>
 		</div>
-
-		<div class="asideMainMenu" onclick="asideMenu(3)">image</div>
-		<div class="dropdown-content" name="myDropdown">
-			<a draggable="true" ondragover="dragStart(event)" href="#">Link 3-1</a>
-			<a draggable="true" ondragover="dragStart(event)" href="#">Link 3-2</a>
-			<a draggable="true" ondragover="dragStart(event)" href="#">Link 3-3</a>
+		
+		<div class="list-item">
+		  <div class="item-content">
+			<span class="order">3</span> Charlie
+		  </div>
 		</div>
--->
-	</aside>
-	
-		<div class="dropZone" id="dropZone" ondrop="drop(event)" ondragover="dragOver(event)">
-			<div class="dropZoneTop">  drop zone</div>
-		<h1></h1>
+		
+		<div class="list-item">
+		  <div class="item-content">
+			<span class="order">4</span> Delta
+		  </div>
 		</div>
-		<div id="mydiv" draggable="true">mydiv</div>
-	
-
+		
+	  </section>
 </body>
 
 </html>
