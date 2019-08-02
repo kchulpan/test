@@ -4,10 +4,14 @@
 		<meta charset="utf-8">
 		<title></title>
 		<style>
-			div{
-				border: 1px solid black;
+			.borderSize{
 				width : 200px;
                                 height : 200px;
+				border-radius: 10px;
+			}
+			.num{
+				border: 1px solid black;
+				
 font-size: 100px;
 text-align:center;
 				float : left;
@@ -15,8 +19,6 @@ text-align:center;
 				
 			}
 button{
-width: 200px;
-height: 200px;
 font-size: 70px;
 text-align:center;
 margin:10px;
@@ -70,13 +72,13 @@ margin:10px;
 	<body>
 
 		
-		<p><button onclick="createNum(45, 1);">click</button></p>
-		<div class="num"></div>
-		<div class="num"></div>
-		<div class="num"></div>
-		<div class="num"></div>
-		<div class="num"></div>
-		<div class="num"></div>
+		<p><button class="borderSize" onclick="createNum(45, 1);">click</button></p>
+		<div class="num borderSize"></div>
+		<div class="num borderSize"></div>
+		<div class="num borderSize"></div>
+		<div class="num borderSize"></div>
+		<div class="num borderSize"></div>
+		<div class="num borderSize"></div>
 
 	</body>
 </html>
