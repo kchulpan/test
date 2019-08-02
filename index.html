@@ -8,10 +8,10 @@
             position: absolute;
             top: 45%;
             left: 50%;
-            width: 640px;
-            height: 640px;
             margin: -320px 0 0 -320px;
         }
+		
+		
     </style>
 </head>
  
@@ -56,12 +56,17 @@
         var titleRect = { x: 100, y: 95, w: 252, h: 100 };
         var clickRect = { x: 50, y: 375, w: 252, h: 40 };
         var outerRect = { x: 5, y: 5, w: 630, h: 630 };
+		var btnLeft = { x: 380, y: 520, w: 60, h: 40 };
+		var btnUp = { x: 460, y: 460, w: 60, h: 40 };
+		var btnRight = { x: 540, y: 520, w: 60, h: 40 };
+		var btnDown = { x: 460, y: 520, w: 60, h: 40 };
         var squareBorder = 'white';
         var titlebgColor = 'white';
         var textColor = 'black';
         var bgColor = '#DDEEFF';
         var gridColor = '#BECFEA';
         var gridBorderColor = '#7788AA';
+		var btnColor = 'gray';
         var largeStroke = 5;
         var smallStroke = 2;
  
@@ -117,9 +122,9 @@
             }
         });
  
-        addEventListener('click', function () {
+        canvas.addEventListener('click', function () {
             startNewGame();
-        });
+        }, false);
  
         addEventListener('keyup', function () {
             keyDown = false;
@@ -404,6 +409,11 @@
             // background
             fillRect(outerRect, bgColor);
             fillRect(gridRect, gridColor);
+			fillRect(btnLeft, 'black');
+			fillRect(btnRight, 'black');
+			fillRect(btnUp, 'black');
+			fillRect(btnDown, 'black');
+			
  
             // the blocks dropped in the grid
             for (var r = 0; r < nRows; r++) {
@@ -419,6 +429,10 @@
             drawRect(gridRect, gridBorderColor);
             drawRect(previewRect, gridBorderColor);
             drawRect(outerRect, gridBorderColor);
+			drawRect(btnLeft, btnColor);
+			drawRect(btnRight, btnColor);
+			drawRect(btnUp, btnColor);
+			drawRect(btnDown, btnColor);
  
             // scoreboard
             g.fillStyle = textColor;
@@ -508,10 +522,64 @@
             draw();
         }
  
-        init();
+        init();	
+		
+		
     </script>
 	<a href="./lottoNumberCreator.html">Lotto Number Creator</a>
 	<a href="./rubiksCube.html">Rubik's Cube</a>
-
+		<input type="button" class="btnLeft" value="left"/>
+		<input type="button" class="btnUp" value="up"/>
+		<input type="button" class="btnDown" value="down"/>
+		<input type="button" class="btnRight" value="right"/>
+	<script>
+			var btnClick = (function(){
+			var btn = document.getElementsByTagName('input');
+			
+			var btnLen = btn.length;
+			for(var i = 0; i< btnLen; i++){
+			btn[i].addEventListener('click', function (event) {
+            
+                
+				console.log(event.target.value);
+                if (scoreboard.isGameOver())
+                    return;
+ 
+                switch (event.target.value) {
+ 
+                    case 'up':
+                    case 'ArrowUp':
+                        if (canRotate(fallingShape))
+                            rotate(fallingShape);
+                        break;
+ 
+                    case 'left':
+                    case 'ArrowLeft':
+                        if (canMove(fallingShape, left))
+                            move(left);
+                        break;
+ 
+                    case 'right':
+                    case 'ArrowRight':
+                        if (canMove(fallingShape, right))
+                            move(right);
+                        break;
+ 
+                    case 'down':
+                    case 'ArrowDown':
+                       
+                            while (canMove(fallingShape, down)) {
+                                move(down);
+                                draw();
+                            }
+                            shapeHasLanded();
+                        
+                }
+                draw();
+            
+        });
+			};
+		})();
+	</script>
 	</body>
 </html>
